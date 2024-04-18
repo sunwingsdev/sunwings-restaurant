@@ -13,11 +13,11 @@ import { AiOutlineStock, AiOutlineBranches } from "react-icons/ai";
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState({
     menuCategory: true,
-    // media: true,
-    // theme: true,
-    // page: true,
-    // user: true,
-    // setting: true,
+    branch: true,
+    saleHistory: true,
+    stockManager: true,
+    paymentGateway: true,
+    setting: true,
   });
 
   const toggleCollapse = (dropdown) => {
@@ -79,14 +79,14 @@ const Sidebar = () => {
           <li className=" text-white cursor-pointer">
             <div
               className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
-              onClick={() => toggleCollapse("menuCategory")}
+              onClick={() => toggleCollapse("branch")}
             >
               <AiOutlineBranches />
               Branch
             </div>
             <ul
               className={`pl-4 mt-2 text-sm lg:text-base ${
-                collapsed.menuCategory
+                collapsed.branch
                   ? "hidden"
                   : "block transition-all ease-in duration-500"
               }`}
@@ -102,14 +102,14 @@ const Sidebar = () => {
           <li className=" text-white cursor-pointer">
             <div
               className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
-              onClick={() => toggleCollapse("menuCategory")}
+              onClick={() => toggleCollapse("saleHistory")}
             >
               <MdHistory />
               Sale History
             </div>
             <ul
               className={`pl-4 mt-2 text-sm lg:text-base ${
-                collapsed.menuCategory
+                collapsed.saleHistory
                   ? "hidden"
                   : "block transition-all ease-in duration-500"
               }`}
@@ -125,14 +125,14 @@ const Sidebar = () => {
           <li className=" text-white cursor-pointer">
             <div
               className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
-              onClick={() => toggleCollapse("menuCategory")}
+              onClick={() => toggleCollapse("stockManager")}
             >
               <AiOutlineStock />
               Stock Manager
             </div>
             <ul
               className={`pl-4 mt-2 text-sm lg:text-base ${
-                collapsed.menuCategory
+                collapsed.stockManager
                   ? "hidden"
                   : "block transition-all ease-in duration-500"
               }`}
@@ -148,37 +148,37 @@ const Sidebar = () => {
           <li className=" text-white cursor-pointer">
             <div
               className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
-              onClick={() => toggleCollapse("menuCategory")}
+              onClick={() => toggleCollapse("paymentGateway")}
             >
               <MdPayments />
-              Payment Getway
+              Payment Gateway
             </div>
             <ul
               className={`pl-4 mt-2 text-sm lg:text-base ${
-                collapsed.menuCategory
+                collapsed.paymentGateway
                   ? "hidden"
                   : "block transition-all ease-in duration-500"
               }`}
             >
               <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>Add Getway</Link>
+                <Link>Add Gateway</Link>
               </li>
               <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>All Getway</Link>
+                <Link>All Gateway</Link>
               </li>
             </ul>
           </li>
           <li className=" text-white cursor-pointer">
             <div
               className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
-              onClick={() => toggleCollapse("menuCategory")}
+              onClick={() => toggleCollapse("setting")}
             >
               <MdOutlineSettings />
               Setting
             </div>
             <ul
               className={`pl-4 mt-2 text-sm lg:text-base ${
-                collapsed.menuCategory
+                collapsed.setting
                   ? "hidden"
                   : "block transition-all ease-in duration-500"
               }`}
@@ -207,10 +207,7 @@ const Sidebar = () => {
             </ul>
           </li>
           <li className=" text-white cursor-pointer">
-            <div
-              className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
-              onClick={() => toggleCollapse("menuCategory")}
-            >
+            <div className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg">
               <MdOutlinePowerSettingsNew />
               Exit & Logout
             </div>
