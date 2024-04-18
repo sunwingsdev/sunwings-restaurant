@@ -14,9 +14,39 @@ const ItemMenu = () => {
     "Content 6",
     "Content 7",
     "Content 8",
-    "Content 9",
-    "Content 10",
+    // "Content 9",
+    // "Content 10",
   ];
+
+  // const menuItems = [
+  //   {
+  //     id: 1,
+  //     name: "Chicken Meat",
+  //     price: 100,
+  //     discount: 10,
+  //     itemImage: "",
+  //     category: "Chicken",
+  //     subCategory: "",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Chicken bb",
+  //     price: 100,
+  //     discount: 10,
+  //     itemImage: "",
+  //     category: "Chicken",
+  //     subCategory: "",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Chicken f",
+  //     price: 100,
+  //     discount: 10,
+  //     itemImage: "",
+  //     category: "Chicken",
+  //     subCategory: "",
+  //   },
+  // ];
   return (
     <div>
       <Tab.Group>
