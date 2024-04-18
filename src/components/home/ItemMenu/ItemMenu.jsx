@@ -2,7 +2,8 @@ import { Tab } from "@headlessui/react";
 import { useState } from "react";
 import { TiThMenu } from "react-icons/ti";
 import ItemCard from "../itemCard/ItemCard";
-const ItemMenu = () => {
+
+const ItemMenu = ({ setOrders, orders }) => {
   const [isOpen, setIsOpen] = useState(false);
   const tabList = ["Chicken", "Deals", "Burgers", "Rice Bowls", "Pizza"];
   const tabPanelList = [
@@ -14,39 +15,61 @@ const ItemMenu = () => {
     "Content 6",
     "Content 7",
     "Content 8",
-    // "Content 9",
-    // "Content 10",
   ];
 
-  // const menuItems = [
-  //   {
-  //     id: 1,
-  //     name: "Chicken Meat",
-  //     price: 100,
-  //     discount: 10,
-  //     itemImage: "",
-  //     category: "Chicken",
-  //     subCategory: "",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Chicken bb",
-  //     price: 100,
-  //     discount: 10,
-  //     itemImage: "",
-  //     category: "Chicken",
-  //     subCategory: "",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Chicken f",
-  //     price: 100,
-  //     discount: 10,
-  //     itemImage: "",
-  //     category: "Chicken",
-  //     subCategory: "",
-  //   },
-  // ];
+  // Function to handle adding an item to the order list
+  const handleAddToOrder = (item) => {
+    const existingOrder = orders.find((order) => order.id === item.id);
+    if (existingOrder) {
+      // If the item already exists in the order list, increment its quantity
+      const updatedOrders = orders.map((order) =>
+        order.id === item.id
+          ? { ...order, quantity: order.quantity + 1 }
+          : order
+      );
+      setOrders(updatedOrders);
+    } else {
+      // If the item is not in the order list, add it with a quantity of 1
+      setOrders([...orders, { ...item, quantity: 1 }]);
+    }
+  };
+
+  const menuItems = [
+    {
+      id: 1,
+      name: "Chicken Meat",
+      details: "  Lorem ipsum dolor sit amet.",
+      price: 100,
+      discount: 10,
+      itemImage: "",
+      category: "Chicken",
+      subCategory: "",
+      stock: 3,
+    },
+    {
+      id: 2,
+      name: "Chicken bb",
+      details: "  Lorem ipsum dolor sit amet.",
+      price: 100,
+      discount: 10,
+      itemImage: "",
+      category: "Chicken",
+      subCategory: "",
+      stock: 2,
+    },
+    {
+      id: 3,
+      name: "Chicken f",
+      details: "  Lorem ipsum dolor sit amet.",
+      price: 100,
+      discount: 10,
+      itemImage: "",
+      category: "Chicken",
+      subCategory: "",
+      stock: 5,
+    },
+  ];
+
   return (
     <div>
       <Tab.Group>
@@ -93,7 +116,15 @@ const ItemMenu = () => {
           ))}
         </Tab.Panels>
       </Tab.Group>
-      <ItemCard />
+      {menuItems.map((item) => (
+        <ItemCard
+          key={item.id}
+          item={item}
+          setOrders={setOrders}
+          orders={orders}
+          handleAddToOrder={handleAddToOrder} // Passing the function as prop
+        />
+      ))}
     </div>
   );
 };
