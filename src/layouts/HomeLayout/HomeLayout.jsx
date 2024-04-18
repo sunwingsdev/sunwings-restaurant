@@ -7,7 +7,7 @@ import ReceiptSection from "../../components/home/receiptSection/ReceiptSection"
 
 const HomeLayout = () => {
   const [orders, setOrders] = useState([]);
-  console.log(orders);
+
   return (
     <div className="container mx-auto">
       <Header />
