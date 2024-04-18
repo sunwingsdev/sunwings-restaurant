@@ -16,7 +16,9 @@ const ItemCard = ({ item, handleAddToOrder }) => {
             <div className="flex flex-col items-end w-2/3">
               <p>
                 <span className="line-through">{item.price} </span>
-                <span className="text-2xl font-semibold"> 90 </span>
+                <span className="text-2xl font-semibold">
+                  {item.price - (item.price * item.discount) / 100}
+                </span>
                 Tk
               </p>
             </div>

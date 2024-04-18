@@ -66,7 +66,9 @@ const ReceiptSection = ({ orders, setOrders }) => {
             <tr key={order.id}>
               <th className="border-r border-black">{i + 1}</th>
               <td className="border-r border-black">{order.name}</td>
-              <td className="border-r border-black">{order.price} TK</td>
+              <td className="border-r border-black">
+                {order.price - (order.price * order.discount) / 100} TK
+              </td>
               <td className="flex items-center gap-2 border-r border-black">
                 <FiMinusCircle
                   className="cursor-pointer hover:text-red-600"
@@ -79,7 +81,9 @@ const ReceiptSection = ({ orders, setOrders }) => {
                 />
               </td>
               <td className=" border-black">
-                {order.quantity * order.price} TK
+                {order.quantity *
+                  (order.price - (order.price * order.discount) / 100)}{" "}
+                TK
               </td>
               <td className="border-r border-black">
                 <RiDeleteBin6Line
