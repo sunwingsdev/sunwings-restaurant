@@ -19,7 +19,7 @@ const Sidebar = () => {
                 <Link>Add Category</Link>
               </li>
               <li>
-                <Link>Add Category</Link>
+                <Link>Add</Link>
               </li>
             </ul>
           </li>
