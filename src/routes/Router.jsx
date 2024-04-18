@@ -4,11 +4,11 @@ import DashboardLayout from "../layouts/dashboardLayout/DashboardLayout";
 const Router = createBrowserRouter([
   {
     path: "/",
-    element: <HomeLayout />,
+    element: <HomeLayout />, 
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: <DashboardLayout />, 
   },
 ]);
 
