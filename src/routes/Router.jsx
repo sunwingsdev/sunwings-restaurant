@@ -8,7 +8,7 @@ const Router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: <DashboardLayout />, 
   },
 ]);
 
