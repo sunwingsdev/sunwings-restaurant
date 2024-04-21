@@ -52,6 +52,7 @@ const ItemMenu = ({ setOrders, orders }) => {
   }, [selectedCategory, menuItems, searchTerm]);
 
   const handleSelect = (category) => {
+    setIsOpen(false);
     setSelectedCategory(category);
   };
 
@@ -84,7 +85,7 @@ const ItemMenu = ({ setOrders, orders }) => {
               onClick={() => handleSelect(i)}
               className={`px-6 py-1 font-semibold capitalize hover:bg-green-600  ${
                 selectedCategory === i
-                  ? "bg-green-600 rounded-lg"
+                  ? "bg-green-600 border-b-4 border-red-600"
                   : "bg-red-600"
               }`}
               key={i}
@@ -106,10 +107,10 @@ const ItemMenu = ({ setOrders, orders }) => {
             >
               {tabList.map((i) => (
                 <Tab
-                  onClick={() => setIsOpen(false)}
-                  className={
-                    "px-6 py-1 bg-red-600 border border-black font-semibold"
-                  }
+                  onClick={() => handleSelect(i)}
+                  className={`px-6 py-1 font-semibold capitalize hover:bg-green-600  ${
+                    selectedCategory === i ? "bg-green-600" : "bg-red-600"
+                  }`}
                   key={i}
                 >
                   {i}

@@ -6,6 +6,7 @@ import AddItem from "../pages/dashboard/MenuCategory/AddItem";
 import AddCategory from "../pages/dashboard/MenuCategory/AddCategory";
 import OnlineOrder from "../pages/Home/OnlineOrder/OnlineOrder";
 import Home from "../pages/Home/Home/Home";
+import Calculator from "../pages/Home/Calculator/Calculator";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -18,6 +19,10 @@ const Router = createBrowserRouter([
       {
         path: "online-order",
         element: <OnlineOrder />,
+      },
+      {
+        path: "calculator",
+        element: <Calculator />,
       },
     ],
   },
