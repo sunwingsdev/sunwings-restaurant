@@ -2,9 +2,12 @@ import { Tab } from "@headlessui/react";
 import { useState } from "react";
 import { TiThMenu } from "react-icons/ti";
 import ItemCard from "../itemCard/ItemCard";
+import { useGetItemsQuery } from "../../../redux/features/allApis/itemApi/itemApi";
 
 const ItemMenu = ({ setOrders, orders }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: menuItems, isLoading } = useGetItemsQuery();
+  console.log(menuItems);
   const tabList = ["Chicken", "Deals", "Burgers", "Rice Bowls", "Pizza"];
   const tabPanelList = [
     "Content 1",
@@ -19,11 +22,11 @@ const ItemMenu = ({ setOrders, orders }) => {
 
   // Function to handle adding an item to the order list
   const handleAddToOrder = (item) => {
-    const existingOrder = orders.find((order) => order.id === item.id);
+    const existingOrder = orders.find((order) => order._id === item._id);
     if (existingOrder) {
       // If the item already exists in the order list, increment its quantity
       const updatedOrders = orders.map((order) =>
-        order.id === item.id
+        order._id === item._id
           ? { ...order, quantity: order.quantity + 1 }
           : order
       );
@@ -34,42 +37,9 @@ const ItemMenu = ({ setOrders, orders }) => {
     }
   };
 
-  const menuItems = [
-    {
-      id: 1,
-      name: "Chicken Meat",
-      details: "  Lorem ipsum dolor sit amet.",
-      price: 100,
-      discount: 10,
-      itemImage: "",
-      category: "Chicken",
-      subCategory: "",
-      stock: 3,
-    },
-    {
-      id: 2,
-      name: "Chicken bb",
-      details: "  Lorem ipsum dolor sit amet.",
-      price: 100,
-      discount: 10,
-      itemImage: "",
-      category: "Chicken",
-      subCategory: "",
-      stock: 2,
-    },
-    {
-      id: 3,
-      name: "Chicken f",
-      details: "  Lorem ipsum dolor sit amet.",
-      price: 100,
-      discount: 10,
-      itemImage: "",
-      category: "Chicken",
-      subCategory: "",
-      stock: 5,
-    },
-  ];
-
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
       <Tab.Group>
@@ -118,7 +88,7 @@ const ItemMenu = ({ setOrders, orders }) => {
       </Tab.Group>
       {menuItems.map((item) => (
         <ItemCard
-          key={item.id}
+          key={item._id}
           item={item}
           setOrders={setOrders}
           orders={orders}

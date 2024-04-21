@@ -21,7 +21,7 @@ const ReceiptSection = ({ orders, setOrders }) => {
   };
 
   const handleItemDelete = (order) => {
-    const existingOrders = orders?.filter((item) => item?.id !== order.id);
+    const existingOrders = orders?.filter((item) => item?._id !== order._id);
     setOrders(existingOrders);
   };
 
@@ -63,7 +63,7 @@ const ReceiptSection = ({ orders, setOrders }) => {
         <tbody className="text-base">
           {/* rows */}
           {orders?.map((order, i) => (
-            <tr key={order.id}>
+            <tr key={order._id}>
               <th className="border-r border-black">{i + 1}</th>
               <td className="border-r border-black">{order.name}</td>
               <td className="border-r border-black">
