@@ -1,21 +1,67 @@
+import { NavLink } from "react-router-dom";
+
 const Navbar = () => {
   const navItems = (
     <>
-      {" "}
-      <li className="px-4 py-2 bg-[#D21312] text-white rounded-3xl text-xl font-semibold">
-        POS
+      <li>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `px-4 py-2  text-white rounded-3xl text-xl font-semibold ${
+              isActive ? "bg-green-600" : "bg-[#D21312]"
+            }`
+          }
+        >
+          POS
+        </NavLink>
       </li>
-      <li className="px-4 py-2 bg-[#D21312] text-white rounded-3xl text-xl font-semibold">
-        Online order
+      <li>
+        <NavLink
+          to="/online-order"
+          className={({ isActive }) =>
+            `px-4 py-2  text-white rounded-3xl text-xl font-semibold ${
+              isActive ? "bg-green-600" : "bg-[#D21312]"
+            }`
+          }
+        >
+          Online Order
+        </NavLink>
       </li>
-      <li className="px-4 py-2 bg-[#D21312] text-white rounded-3xl text-xl font-semibold">
-        Calculator
+      <li>
+        <NavLink
+          to="/calculator"
+          className={({ isActive }) =>
+            `px-4 py-2  text-white rounded-3xl text-xl font-semibold ${
+              isActive ? "bg-green-600" : "bg-[#D21312]"
+            }`
+          }
+        >
+          Calculator
+        </NavLink>
       </li>
-      <li className="px-4 py-2 bg-[#D21312] text-white rounded-3xl text-xl font-semibold">
-        Sell History
+      <li>
+        <NavLink
+          to="/sell-history"
+          className={({ isActive }) =>
+            `px-4 py-2  text-white rounded-3xl text-xl font-semibold ${
+              isActive ? "bg-green-600" : "bg-[#D21312]"
+            }`
+          }
+        >
+          Sell History
+        </NavLink>
       </li>
-      <li className="px-4 py-2 bg-[#D21312] text-white rounded-3xl text-xl font-semibold">
-        Total
+      <li>
+        <NavLink
+          to=""
+          className={({ isActive }) =>
+            `px-4 py-2  text-white rounded-3xl text-xl font-semibold ${
+              isActive ? "bg-green-600" : "bg-[#D21312]"
+            }`
+          }
+        >
+          Total
+        </NavLink>
       </li>
     </>
   );
