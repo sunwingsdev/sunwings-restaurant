@@ -63,13 +63,13 @@ const Sidebar = () => {
               }`}
             >
               <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>Add Category</Link>
+                <Link to="/dashboard/add-category">Add Category</Link>
               </li>
               <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
                 <Link>All Category</Link>
               </li>
               <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>Add Items</Link>
+                <Link to="/dashboard/add-item">Add Item</Link>
               </li>
               <li className="bg-green-500 hover:bg-green-600 py-2 px-4">
                 <Link>All Items</Link>

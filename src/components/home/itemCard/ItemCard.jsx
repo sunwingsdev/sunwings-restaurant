@@ -1,10 +1,8 @@
-import vis from "../../../assets/itme.jpg";
-
 const ItemCard = ({ item, handleAddToOrder }) => {
   return (
     <div onClick={() => handleAddToOrder(item)}>
       <div className="w-48 border rounded overflow-hidden relative">
-        <img src={vis} alt="" />
+        <img src={item.itemImage} alt="" />
         <p className="text-red-700 absolute top-0 left-0 font-bold text-lg py-1 px-2 bg-green-600">
           {item.discount}%
         </p>
