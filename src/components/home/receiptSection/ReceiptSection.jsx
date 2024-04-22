@@ -121,6 +121,30 @@ const ReceiptSection = ({ orders, setOrders }) => {
           {dummyRows}
         </tbody>
       </table>
+      <div className="flex">
+        <div className="bg-[#f40027] text-white w-full text-center py-1 text-xl font-semibold">
+          <h3>Sub Total</h3>
+        </div>
+        <div className="bg-gray-500 text-white w-full text-center py-1 text-xl font-semibold">
+          <p>999 TK</p>
+        </div>
+      </div>
+      <div className="flex py-1">
+        <div className="bg-[#f40027] text-white w-full text-center py-1 text-xl font-semibold">
+          <h3>Vat & Tax 10%</h3>
+        </div>
+        <div className="bg-gray-500 text-white w-full text-center py-1 text-xl font-semibold">
+          <p>999 TK</p>
+        </div>
+      </div>
+      <div className="flex">
+        <div className="bg-[#f40027] text-white w-full text-center py-1 text-xl font-semibold">
+          <h3>Total Pay Bill</h3>
+        </div>
+        <div className="bg-gray-800 text-white w-full text-center py-1 text-xl font-semibold">
+          <p>999 TK</p>
+        </div>
+      </div>
       <div className="text-right pt-3 pb-5 mt-1">
         <button
           onClick={handleOrderPlace}
