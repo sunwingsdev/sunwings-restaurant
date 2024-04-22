@@ -65,11 +65,30 @@ const ReceiptSection = ({ orders, setOrders }) => {
           {orders?.map((order, i) => (
             <tr key={order._id}>
               <th className="border-r border-black">{i + 1}</th>
-              <td className="border-r border-black">{order.name}</td>
-              <td className="border-r border-black">
-                {order.price - (order.price * order.discount) / 100} TK
+              <td
+                className="border-r border-black"
+                style={{
+                  maxWidth: "150px",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {order.name}
               </td>
-              <td className="flex items-center gap-2 border-r border-black">
+              <td
+                className="border-r border-black"
+                style={{ width: "100px", textAlign: "right" }}
+              >
+                {parseFloat(
+                  order.price - (order.price * order.discount) / 100
+                ).toFixed(2)}{" "}
+                TK
+              </td>
+              <td
+                className="flex items-center gap-2  border-black"
+                style={{ borderCollapse: "collapse" }}
+              >
                 <FiMinusCircle
                   className="cursor-pointer hover:text-red-600"
                   onClick={() => handleDecrement(i)}
@@ -80,9 +99,14 @@ const ReceiptSection = ({ orders, setOrders }) => {
                   onClick={() => handleIncrement(i)}
                 />
               </td>
-              <td className=" border-black">
-                {order.quantity *
-                  (order.price - (order.price * order.discount) / 100)}{" "}
+              <td
+                className=" border-l border-black"
+                style={{ width: "100px", textAlign: "right" }}
+              >
+                {(
+                  order.quantity *
+                  (order.price - (order.price * order.discount) / 100)
+                ).toFixed(2)}{" "}
                 TK
               </td>
               <td className="border-r border-black">
