@@ -17,6 +17,13 @@ const itemApi = baseApi.injectEndpoints({
       query: () => "/item",
       providesTags: ["item"],
     }),
+
+    // delete a item
+    deleteItem: builder.mutation({
+      query: (id) => ({ url: `/item/${id}`, method: "DELETE" }),
+      invalidatesTags: ["item"],
+    }),
   }),
 });
-export const { useGetItemsQuery, useAddItemMutation } = itemApi;
+export const { useGetItemsQuery, useAddItemMutation, useDeleteItemMutation } =
+  itemApi;
