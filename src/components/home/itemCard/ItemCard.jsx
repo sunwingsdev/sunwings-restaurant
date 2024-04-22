@@ -1,19 +1,25 @@
-import vis from "../../../assets/itme.jpg";
-
-const ItemCard = () => {
+const ItemCard = ({ item, handleAddToOrder }) => {
   return (
-    <div>
-      <div className="w-48 border rounded overflow-hidden">
-        <img src={vis} alt="" />
+    <div onClick={() => handleAddToOrder(item)}>
+      <div className="w-48 border rounded overflow-hidden relative">
+        <img src={item.itemImage} alt="" />
+        <p className="text-red-700 absolute top-0 left-0 font-bold text-lg py-1 px-2 bg-green-600">
+          {item.discount}%
+        </p>
         <div className="px-2 pt-1 pb-3 bg-slate-100">
-          <p className="text-xl font-semibold">Chicken Meat</p>
-          <div className="flex justify-evenly items-center gap-2 mt-1">
-            <button className="bg-green-800 text-white px-2 py-1 rounded w-[60%]">
-              Add To Cart
-            </button>
-            <button className="bg-[#f40027] text-white px-2 py-1 rounded w-[38%]">
-              99 Tk
-            </button>
+          <div className="flex justify-between items-center">
+            <p className="text-xl font-semibold">{item.name}</p>
+          </div>
+          <div className="flex justify-between items-center gap-2 mt-1">
+            <div className="flex flex-col items-end w-2/3">
+              <p>
+                <span className="line-through">{item.price} </span>
+                <span className="text-2xl font-semibold">
+                  {item.price - (item.price * item.discount) / 100}
+                </span>
+                Tk
+              </p>
+            </div>
           </div>
         </div>
       </div>

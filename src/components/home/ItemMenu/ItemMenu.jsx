@@ -2,8 +2,12 @@ import { Tab } from "@headlessui/react";
 import { useState } from "react";
 import { TiThMenu } from "react-icons/ti";
 import ItemCard from "../itemCard/ItemCard";
-const ItemMenu = () => {
+import { useGetItemsQuery } from "../../../redux/features/allApis/itemApi/itemApi";
+
+const ItemMenu = ({ setOrders, orders }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: menuItems, isLoading } = useGetItemsQuery();
+  console.log(menuItems);
   const tabList = ["Chicken", "Deals", "Burgers", "Rice Bowls", "Pizza"];
   const tabPanelList = [
     "Content 1",
@@ -14,9 +18,28 @@ const ItemMenu = () => {
     "Content 6",
     "Content 7",
     "Content 8",
-    "Content 9",
-    "Content 10",
   ];
+
+  // Function to handle adding an item to the order list
+  const handleAddToOrder = (item) => {
+    const existingOrder = orders.find((order) => order._id === item._id);
+    if (existingOrder) {
+      // If the item already exists in the order list, increment its quantity
+      const updatedOrders = orders.map((order) =>
+        order._id === item._id
+          ? { ...order, quantity: order.quantity + 1 }
+          : order
+      );
+      setOrders(updatedOrders);
+    } else {
+      // If the item is not in the order list, add it with a quantity of 1
+      setOrders([...orders, { ...item, quantity: 1 }]);
+    }
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
       <Tab.Group>
@@ -63,7 +86,15 @@ const ItemMenu = () => {
           ))}
         </Tab.Panels>
       </Tab.Group>
-      <ItemCard />
+      {menuItems.map((item) => (
+        <ItemCard
+          key={item._id}
+          item={item}
+          setOrders={setOrders}
+          orders={orders}
+          handleAddToOrder={handleAddToOrder} // Passing the function as prop
+        />
+      ))}
     </div>
   );
 };
