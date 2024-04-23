@@ -1,7 +1,25 @@
 import { FiMinusCircle, FiPlusCircle } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { useState, useEffect } from "react";
 
 const ReceiptSection = ({ orders, setOrders }) => {
+  const [totalOrderPrice, setTotalOrderPrice] = useState(0);
+  const [vat, setVat] = useState(0);
+
+  // Calculate total order price and VAT whenever orders change
+  useEffect(() => {
+    let totalPrice = 0;
+    orders.forEach((order) => {
+      totalPrice +=
+        order.quantity * (order.price - (order.price * order.discount) / 100);
+    });
+    setTotalOrderPrice(totalPrice.toFixed(2));
+
+    // Calculate VAT
+    const vatAmount = totalPrice * 0.075; // 7.5% VAT
+    setVat(vatAmount.toFixed(2));
+  }, [orders]);
+
   // Function to handle quantity increment
   const handleIncrement = (index) => {
     const updatedOrders = [...orders];
@@ -126,25 +144,39 @@ const ReceiptSection = ({ orders, setOrders }) => {
           <h3>Sub Total</h3>
         </div>
         <div className="bg-gray-500 text-white w-full text-center py-1 text-xl font-semibold">
-          <p>999 TK</p>
+          <p>{totalOrderPrice} TK</p>
+        </div>
+      </div>
+      <div className="flex pt-1">
+        <div className="bg-[#f40027] text-white w-full text-center py-1 text-xl font-semibold">
+          <h3>Vat & Tax 7.5%</h3>
+        </div>
+        <div className="bg-gray-500 text-white w-full text-center py-1 text-xl font-semibold">
+          <p>{vat} TK</p>
         </div>
       </div>
       <div className="flex py-1">
         <div className="bg-[#f40027] text-white w-full text-center py-1 text-xl font-semibold">
-          <h3>Vat & Tax 10%</h3>
-        </div>
-        <div className="bg-gray-500 text-white w-full text-center py-1 text-xl font-semibold">
-          <p>999 TK</p>
-        </div>
-      </div>
-      <div className="flex">
-        <div className="bg-[#f40027] text-white w-full text-center py-1 text-xl font-semibold">
           <h3>Total Pay Bill</h3>
         </div>
         <div className="bg-gray-800 text-white w-full text-center py-1 text-xl font-semibold">
-          <p>999 TK</p>
+          <p>{(parseFloat(totalOrderPrice) + parseFloat(vat)).toFixed(2)} TK</p>
         </div>
       </div>
+      <div className="flex pb-2">
+        <div className="bg-[#f40027] text-white w-full text-center py-1 text-xl font-semibold">
+          <h3>Total Payable</h3>
+        </div>
+        <div className="bg-gray-800 text-white w-full text-center py-1 text-xl font-semibold">
+          <p>
+            {Math.ceil(
+              (parseFloat(totalOrderPrice) + parseFloat(vat)).toFixed(2)
+            )}{" "}
+            TK
+          </p>
+        </div>
+      </div>
+
       <div className="text-right pt-3 pb-5 mt-1">
         <button
           onClick={handleOrderPlace}

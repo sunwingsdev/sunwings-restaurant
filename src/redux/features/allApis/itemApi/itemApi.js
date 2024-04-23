@@ -12,6 +12,16 @@ const itemApi = baseApi.injectEndpoints({
       invalidatesTags: ["item"],
     }),
 
+    // edit a item
+    editItem: builder.mutation({
+      query: (itemData) => ({
+        url: `/item/edit/${itemData?.id}`,
+        method: "PUT",
+        body: itemData?.data,
+      }),
+      invalidatesTags: ["item"],
+    }),
+
     // get items
     getItems: builder.query({
       query: () => "/item",
@@ -25,5 +35,9 @@ const itemApi = baseApi.injectEndpoints({
     }),
   }),
 });
-export const { useGetItemsQuery, useAddItemMutation, useDeleteItemMutation } =
-  itemApi;
+export const {
+  useGetItemsQuery,
+  useAddItemMutation,
+  useDeleteItemMutation,
+  useEditItemMutation,
+} = itemApi;
