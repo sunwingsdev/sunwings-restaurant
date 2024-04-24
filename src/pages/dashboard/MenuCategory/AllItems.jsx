@@ -139,7 +139,7 @@ const AllItems = () => {
         </div>
       </Modal>
       <Modal closeModal={closeEditModal} isOpen={isOpenEditModal}>
-        <EditItem rowId={rowId} />
+        <EditItem closeModal={closeEditModal} rowId={rowId} />
       </Modal>
     </>
   );

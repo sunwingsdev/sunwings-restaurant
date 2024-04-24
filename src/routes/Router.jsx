@@ -8,6 +8,8 @@ import OnlineOrder from "../pages/Home/OnlineOrder/OnlineOrder";
 import Home from "../pages/Home/Home/Home";
 import Calculator from "../pages/Home/Calculator/Calculator";
 import AllItems from "../pages/dashboard/MenuCategory/AllItems";
+import Login from "../components/login/Login";
+import Register from "../components/register/Register";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -48,6 +50,14 @@ const Router = createBrowserRouter([
         element: <AllItems />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/sign-up",
+    element: <Register />,
   },
 ]);
 
