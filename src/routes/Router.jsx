@@ -10,10 +10,15 @@ import Calculator from "../pages/Home/Calculator/Calculator";
 import AllItems from "../pages/dashboard/MenuCategory/AllItems";
 import Login from "../components/login/Login";
 import Register from "../components/register/Register";
+import PrivateRoute from "./PrivateRoute";
 const Router = createBrowserRouter([
   {
     path: "/",
-    element: <HomeLayout />,
+    element: (
+      <PrivateRoute>
+        <HomeLayout />
+      </PrivateRoute>
+    ),
     children: [
       {
         path: "",

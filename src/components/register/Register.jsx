@@ -4,6 +4,7 @@ import { FaCameraRetro } from "react-icons/fa";
 import { imageUpload } from "../../api/api";
 import { AuthContext } from "../../providers/AuthProviders";
 import { useAddUserMutation } from "../../redux/features/allApis/userApi/userApi";
+import { useToasts } from "react-toast-notifications";
 
 const Register = () => {
   const { createUser, updateUserProfile, setUser, loading, setLoading, user } =
@@ -20,6 +21,7 @@ const Register = () => {
   const [image, setImage] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { addToast } = useToasts();
 
   const password = watch("password", "");
   // const confirmPassword = watch("confirmPassword", "");
@@ -52,22 +54,37 @@ const Register = () => {
                   if (result.data.insertedId) {
                     setLoading(false);
                     reset();
-                    console.log("user added");
+                    addToast("User created and logged in successfully", {
+                      appearance: "success",
+                      autoDismiss: true,
+                    });
                   }
                 })
                 .catch((error) => {
-                  console.log(error.message);
+                  addToast(error.message, {
+                    appearance: "error",
+                    autoDismiss: true,
+                  });
                 });
             })
             .catch((error) => {
-              console.log(error);
+              addToast(error.message, {
+                appearance: "error",
+                autoDismiss: true,
+              });
             });
         })
         .catch((error) => {
-          console.log(error);
+          addToast(error.message, {
+            appearance: "error",
+            autoDismiss: true,
+          });
         });
     } catch (error) {
-      console.log(error);
+      addToast(error.message, {
+        appearance: "error",
+        autoDismiss: true,
+      });
     }
     setLoading(false);
   };

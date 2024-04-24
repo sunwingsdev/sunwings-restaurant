@@ -1,13 +1,43 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../providers/AuthProviders";
+import { useToasts } from "react-toast-notifications";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { signIn } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { addToast } = useToasts();
 
-  const handleLogin = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  const handleLogin = async () => {
     // Add your login logic here
-    console.log("Logging in with:", email, password);
+    setLoading(true);
+    try {
+      const result = await signIn(email, password);
+      const loggedUser = result?.user;
+      addToast(
+        `${loggedUser?.displayName || "Unknown user"} logged in successfully`,
+        {
+          appearance: "success",
+          autoDismiss: true,
+        }
+      );
+      navigate(from, { replace: true });
+      setLoading(false);
+      // navigate(from, { replace: true });
+    } catch (error) {
+      addToast(error.message, {
+        appearance: "success",
+        autoDismiss: true,
+      });
+      setLoading(false);
+    }
   };
 
   return (
@@ -59,7 +89,7 @@ const Login = () => {
             className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded focus:outline-none focus:shadow-outline"
             onClick={handleLogin}
           >
-            Login
+            {loading ? "Logging in" : "Login"}
           </button>
           {/* You can add forgot password link or other options here */}
         </div>
