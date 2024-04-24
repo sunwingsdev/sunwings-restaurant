@@ -7,27 +7,28 @@ const Footer = () => {
   const { addToast } = useToasts();
   // handle log out here
   const handleLogout = () => {
-    if (user) {
-      logOut()
-        .then(() => {
-          addToast("User logged out successfully", {
-            appearance: "success",
-            autoDismiss: true,
-          });
-          setLoading(false);
-        })
-        .catch((error) => {
-          addToast(error.message, {
-            appearance: "error",
-            autoDismiss: true,
-          });
-        });
+    if (!user) {
+      addToast("No user to be logout", {
+        appearance: "error",
+        autoDismiss: true,
+      });
       setLoading(false);
     }
-    addToast("No user to be logout", {
-      appearance: "error",
-      autoDismiss: true,
-    });
+
+    logOut()
+      .then(() => {
+        addToast("User logged out successfully", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setLoading(false);
+      })
+      .catch((error) => {
+        addToast(error.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      });
     setLoading(false);
   };
   const navItems = (

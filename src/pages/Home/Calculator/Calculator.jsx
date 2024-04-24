@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { GoPin } from "react-icons/go";
 
 const Calculator = () => {
   const [input, setInput] = useState("");
   const [result, setResult] = useState("");
+  const [isPin, setIsPin] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -29,6 +31,7 @@ const Calculator = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleInput = (value) => {
@@ -52,9 +55,20 @@ const Calculator = () => {
     }
   };
 
+  const handlePinToggle = () => {
+    setIsPin(!isPin);
+  };
+
   return (
     <div className="flex justify-center items-center bg-gray-200 py-4">
-      <div className="bg-white rounded-lg shadow-lg p-8">
+      <div
+        className={`bg-white rounded-lg shadow-lg p-8 ${
+          isPin ? "fixed top-20 right-20" : "static"
+        }`}
+      >
+        <div onClick={handlePinToggle} className="flex justify-end py-3">
+          <GoPin size={35} />
+        </div>
         <div className="flex flex-col items-end space-y-4">
           {result ? (
             <div className="border border-gray-300 rounded-md px-4 py-2 text-4xl w-80 text-right">

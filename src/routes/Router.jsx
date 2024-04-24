@@ -11,6 +11,7 @@ import AllItems from "../pages/dashboard/MenuCategory/AllItems";
 import Login from "../components/login/Login";
 import Register from "../components/register/Register";
 import PrivateRoute from "./PrivateRoute";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -63,6 +64,10 @@ const Router = createBrowserRouter([
   {
     path: "/sign-up",
     element: <Register />,
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
 
