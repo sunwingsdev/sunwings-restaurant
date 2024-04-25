@@ -1,49 +1,48 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import {
+  useEditItemMutation,
+  useGetSingleItemQuery,
+} from "../../../redux/features/allApis/itemApi/itemApi";
 import { imageUpload } from "../../../api/api";
-import { useAddItemMutation } from "../../../redux/features/allApis/itemApi/itemApi";
 import { useToasts } from "react-toast-notifications";
 
-const AddItem = () => {
-  const { register, handleSubmit, reset } = useForm();
+const EditItem = ({ closeModal, rowId }) => {
+  const [editItem] = useEditItemMutation();
+  const { data: singleItem, isLoading, refetch } = useGetSingleItemQuery(rowId);
   const [imagePreview, setImagePreview] = useState(null);
-  const [image, setImage] = useState(null);
-  const [addItem] = useAddItemMutation();
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null);
+  const { register, handleSubmit } = useForm();
   const { addToast } = useToasts();
-  //   console.log(image);
 
-  const onSubmit = (data) => {
-    // Handle form submission logic here
-    setLoading(true);
-  imageUpload(image)
-      .then((imageData) => {
-        // console.log(imageData);
-        const imageUrl = imageData?.data?.display_url;
-        data.itemImage = imageUrl;
-        addItem(data)
-          .then((result) => {
-            if (result.data.insertedId) {
-              setLoading(false);
-              addToast("Added item Successfully", {
-                appearance: "success",
-                autoDismiss: true,
-              });
-            }
-          })
-          .catch(() => {
-            setLoading(false);
-            addToast("Failed to Add item", {
-              appearance: "error",
-              autoDismiss: true,
-            });
-          });
-      })
-      .catch((error) => console.log(error));
-    // Reset form after submission
-    reset();
-    // Clear image preview
-    setImagePreview(null);
+  const onSubmit = async (data) => {
+    try {
+      const imageData = await imageUpload(image);
+      const imageUrl = imageData?.data?.display_url;
+      data.itemImage = imageUrl;
+      const itemData = { data, id: rowId };
+      setLoading(true);
+      const result = await editItem(itemData);
+      //   console.log(result);
+      if (result.data.modifiedCount > 0) {
+        setLoading(false);
+        addToast("Item edited Successfully", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        refetch();
+        closeModal();
+      } else {
+        setLoading(false);
+        addToast("Failed to edit item", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const handleImageChange = (e) => {
@@ -58,6 +57,15 @@ const AddItem = () => {
     }
   };
 
+  // Ensure rowId is defined before using it
+  if (!rowId) {
+    return <div>No item selected for editing.</div>;
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="max-w-md mx-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -71,6 +79,7 @@ const AddItem = () => {
           <input
             type="text"
             id="name"
+            defaultValue={singleItem?.name}
             {...register("name")}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
@@ -84,6 +93,7 @@ const AddItem = () => {
           </label>
           <textarea
             id="details"
+            defaultValue={singleItem?.details}
             {...register("details")}
             rows={3}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
@@ -99,6 +109,7 @@ const AddItem = () => {
           <input
             type="text"
             id="price"
+            defaultValue={singleItem?.price}
             {...register("price")}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
@@ -113,6 +124,7 @@ const AddItem = () => {
           <input
             type="text"
             id="discount"
+            defaultValue={singleItem?.discount}
             {...register("discount")}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
@@ -175,6 +187,7 @@ const AddItem = () => {
           <input
             type="text"
             id="category"
+            defaultValue={singleItem?.category}
             {...register("category")}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
@@ -189,6 +202,7 @@ const AddItem = () => {
           <input
             type="text"
             id="subCategory"
+            defaultValue={singleItem?.subCategory}
             {...register("subCategory")}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
@@ -203,6 +217,7 @@ const AddItem = () => {
           <input
             type="text"
             id="stock"
+            defaultValue={singleItem?.stock}
             {...register("stock")}
             className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
@@ -212,7 +227,7 @@ const AddItem = () => {
             type="submit"
             className={`bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600 `}
           >
-            {loading ? "Adding" : "Add Item"}
+            {loading ? "Editing item" : "Edit item"}
           </button>
         </div>
       </form>
@@ -220,4 +235,4 @@ const AddItem = () => {
   );
 };
 
-export default AddItem;
+export default EditItem;

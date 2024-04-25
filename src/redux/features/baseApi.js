@@ -5,7 +5,7 @@ const baseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_BASE_API_URL,
   }),
-  tagTypes: ["users", "item", "categories"],
+  tagTypes: ["users", "item", "categories", "payments"],
   endpoints: () => ({}),
 });
 
