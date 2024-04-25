@@ -35,9 +35,11 @@ const Sidebar = () => {
     <div>
       <div className="">
         <div className="p-4 text-center">
-          <h2 className="text-4xl font-black text-white shadow-2xl cursor-pointer">
-            <span className="text-[#f40027]">K</span>FC
-          </h2>
+          <Link to="/">
+            <h2 className="text-4xl font-black text-white shadow-2xl cursor-pointer">
+              <span className="text-[#f40027]">K</span>FC
+            </h2>
+          </Link>
         </div>
         <ul className="flex gap-2 flex-col p-4 text text-base">
           <li className="bg-[#f40027] text-white py-2 px-4 cursor-pointer hover:bg-[#bd001e] duration-300 lg:text-lg">

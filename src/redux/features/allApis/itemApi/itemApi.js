@@ -22,6 +22,11 @@ const itemApi = baseApi.injectEndpoints({
       invalidatesTags: ["item"],
     }),
 
+    // get a single item
+    getSingleItem: builder.query({
+      query: (id) => `/item/single-item/${id}`,
+    }),
+
     // get items
     getItems: builder.query({
       query: () => "/item",
@@ -37,6 +42,7 @@ const itemApi = baseApi.injectEndpoints({
 });
 export const {
   useGetItemsQuery,
+  useGetSingleItemQuery,
   useAddItemMutation,
   useDeleteItemMutation,
   useEditItemMutation,

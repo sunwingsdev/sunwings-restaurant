@@ -15,9 +15,8 @@ const AddItem = () => {
 
   const onSubmit = (data) => {
     // Handle form submission logic here
-    // console.log(data);
     setLoading(true);
-    imageUpload(image)
+  imageUpload(image)
       .then((imageData) => {
         // console.log(imageData);
         const imageUrl = imageData?.data?.display_url;

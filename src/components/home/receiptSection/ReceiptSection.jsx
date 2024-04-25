@@ -1,10 +1,13 @@
 import { FiMinusCircle, FiPlusCircle } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useState, useEffect } from "react";
+import Modal from "../../shared/Modal";
+import OrderForm from "../OrderForm/OrderForm";
 
 const ReceiptSection = ({ orders, setOrders }) => {
   const [totalOrderPrice, setTotalOrderPrice] = useState(0);
   const [vat, setVat] = useState(0);
+  const [orderModal, setOrderModal] = useState(false);
 
   // Calculate total order price and VAT whenever orders change
   useEffect(() => {
@@ -43,8 +46,8 @@ const ReceiptSection = ({ orders, setOrders }) => {
     setOrders(existingOrders);
   };
 
-  const handleOrderPlace = () => {
-    console.log(orders);
+  const closeOrderModal = () => {
+    setOrderModal(false);
   };
 
   // Calculate the remaining number of dummy rows needed
@@ -179,11 +182,20 @@ const ReceiptSection = ({ orders, setOrders }) => {
 
       <div className="text-right pt-3 pb-5 mt-1">
         <button
-          onClick={handleOrderPlace}
+          onClick={() => setOrderModal(true)}
           className="bg-green-800 hover:bg-[#f40027] duration-300 text-white p-2 text-lg font-bold "
         >
           Order Place
         </button>
+        <Modal isOpen={orderModal} closeModal={closeOrderModal}>
+          <OrderForm
+            closeModal={closeOrderModal}
+            orders={orders}
+            totalOrderPrice={Math.ceil(
+              (parseFloat(totalOrderPrice) + parseFloat(vat)).toFixed(2)
+            )}
+          />
+        </Modal>
       </div>
     </div>
   );
