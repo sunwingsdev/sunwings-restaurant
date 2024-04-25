@@ -70,10 +70,16 @@ const AllItems = () => {
     { field: "name", headerName: "Name", width: 150 },
     { field: "price", headerName: "Price", width: 70 },
     { field: "category", headerName: "Category", width: 90 },
-    { field: "subCategory", headerName: "Subcategory", width: 70 },
+    { field: "subCategory", headerName: "Subcategory", width: 100 },
     {
       field: "discount",
       headerName: "Discount",
+      type: "number",
+      width: 90,
+    },
+    {
+      field: "stock",
+      headerName: "Stock",
       type: "number",
       width: 90,
     },

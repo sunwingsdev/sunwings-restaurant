@@ -12,6 +12,8 @@ import Login from "../components/login/Login";
 import Register from "../components/register/Register";
 import PrivateRoute from "./PrivateRoute";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
+import CashPayment from "../pages/Home/CashPayment/CashPayment";
+import OnlinePayment from "../pages/Home/OnlinePayment/OnlinePayment";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -32,6 +34,14 @@ const Router = createBrowserRouter([
       {
         path: "calculator",
         element: <Calculator />,
+      },
+      {
+        path: "cash-payment-history",
+        element: <CashPayment />,
+      },
+      {
+        path: "online-payment-history",
+        element: <OnlinePayment />,
       },
     ],
   },
