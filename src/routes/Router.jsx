@@ -14,6 +14,8 @@ import PrivateRoute from "./PrivateRoute";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 import CashPayment from "../pages/Home/CashPayment/CashPayment";
 import OnlinePayment from "../pages/Home/OnlinePayment/OnlinePayment";
+import SellHistory from "../pages/Home/SellHistory/SellHistory";
+import AllHistory from "../pages/dashboard/SaleHistory/AllHistory";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -43,6 +45,10 @@ const Router = createBrowserRouter([
         path: "online-payment-history",
         element: <OnlinePayment />,
       },
+      {
+        path: "sell-history",
+        element: <SellHistory />,
+      },
     ],
   },
   {
@@ -64,6 +70,14 @@ const Router = createBrowserRouter([
       {
         path: "all-items",
         element: <AllItems />,
+      },
+      {
+        path: "all-history",
+        element: <AllHistory />,
+      },
+      {
+        path: "online-history",
+        element: <OnlinePayment />,
       },
     ],
   },
