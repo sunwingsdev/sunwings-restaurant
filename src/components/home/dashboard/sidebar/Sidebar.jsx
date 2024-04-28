@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   MdDashboardCustomize,
   MdOutlineRestaurantMenu,
@@ -9,6 +9,8 @@ import {
   MdHistory,
 } from "react-icons/md";
 import { AiOutlineStock, AiOutlineBranches } from "react-icons/ai";
+import { useToasts } from "react-toast-notifications";
+import { AuthContext } from "../../../../providers/AuthProviders";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState({
@@ -19,6 +21,36 @@ const Sidebar = () => {
     paymentGateway: true,
     setting: true,
   });
+  const navigate = useNavigate();
+  const { logOut, user, setLoading } = useContext(AuthContext);
+  const { addToast } = useToasts();
+  // handle log out here
+  const handleLogout = () => {
+    if (!user) {
+      addToast("No user to be logout", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      setLoading(false);
+    }
+
+    logOut()
+      .then(() => {
+        addToast("User logged out successfully", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setLoading(false);
+        navigate("/");
+      })
+      .catch((error) => {
+        addToast(error.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      });
+    setLoading(false);
+  };
 
   const toggleCollapse = (dropdown) => {
     setCollapsed((prevState) => {
@@ -101,9 +133,9 @@ const Sidebar = () => {
                   Add New Branch
                 </li>
               </Link>
-              <Link>
+              <Link to={"/dashboard/all-branches"}>
                 <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                  All Branch
+                  All Branches
                 </li>
               </Link>
             </ul>
@@ -164,7 +196,7 @@ const Sidebar = () => {
           </li>
           <li className=" text-white cursor-pointer">
             <div
-              className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
+              className="bg-green-600 hover:bg-green-700 duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
               onClick={() => toggleCollapse("paymentGateway")}
             >
               <MdPayments />
@@ -189,7 +221,7 @@ const Sidebar = () => {
           </li>
           <li className=" text-white cursor-pointer">
             <div
-              className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
+              className="bg-green-600 hover:bg-green-700 duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
               onClick={() => toggleCollapse("setting")}
             >
               <MdOutlineSettings />
@@ -237,8 +269,8 @@ const Sidebar = () => {
               </Link>
             </ul>
           </li>
-          <li className=" text-white cursor-pointer">
-            <div className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg">
+          <li onClick={handleLogout} className=" text-white cursor-pointer">
+            <div className="bg-green-600 hover:bg-green-700 duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg">
               <MdOutlinePowerSettingsNew />
               Exit & Logout
             </div>

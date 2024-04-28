@@ -86,7 +86,6 @@ const AllHistory = () => {
 
   return (
     <>
-      {" "}
       <div className="w-2/3 mx-auto">
         <DataGrid
           rows={payments}
