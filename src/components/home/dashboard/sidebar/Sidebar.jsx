@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   MdDashboardCustomize,
   MdOutlineRestaurantMenu,
@@ -9,6 +9,8 @@ import {
   MdHistory,
 } from "react-icons/md";
 import { AiOutlineStock, AiOutlineBranches } from "react-icons/ai";
+import { useToasts } from "react-toast-notifications";
+import { AuthContext } from "../../../../providers/AuthProviders";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState({
@@ -19,6 +21,36 @@ const Sidebar = () => {
     paymentGateway: true,
     setting: true,
   });
+  const navigate = useNavigate();
+  const { logOut, user, setLoading } = useContext(AuthContext);
+  const { addToast } = useToasts();
+  // handle log out here
+  const handleLogout = () => {
+    if (!user) {
+      addToast("No user to be logout", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      setLoading(false);
+    }
+
+    logOut()
+      .then(() => {
+        addToast("User logged out successfully", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+        setLoading(false);
+        navigate("/");
+      })
+      .catch((error) => {
+        addToast(error.message, {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      });
+    setLoading(false);
+  };
 
   const toggleCollapse = (dropdown) => {
     setCollapsed((prevState) => {
@@ -64,21 +96,26 @@ const Sidebar = () => {
                   : "block transition-all ease-in duration-500"
               }`}
             >
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link to="/dashboard/add-category">Add Subcategory</Link>
-              </li>
-
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link to="/dashboard/add-item">Add Item</Link>
-              </li>
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4">
-                <Link to={"/dashboard/all-items"}>All Items</Link>
-              </li>
+              <Link to="/dashboard/add-category">
+                <li className="bg-green-500 hover:bg-green-600 mb-2 py-2 px-4 w-full">
+                  Add Subcategory
+                </li>
+              </Link>
+              <Link to="/dashboard/add-item">
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2 w-full">
+                  Add Item
+                </li>
+              </Link>
+              <Link to={"/dashboard/all-items"}>
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 w-full">
+                  All Items
+                </li>
+              </Link>
             </ul>
           </li>
           <li className=" text-white cursor-pointer">
             <div
-              className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
+              className="bg-green-600 hover:bg-green-700 duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
               onClick={() => toggleCollapse("branch")}
             >
               <AiOutlineBranches />
@@ -91,12 +128,16 @@ const Sidebar = () => {
                   : "block transition-all ease-in duration-500"
               }`}
             >
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>Add New Branch</Link>
-              </li>
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>All Branch</Link>
-              </li>
+              <Link>
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  Add New Branch
+                </li>
+              </Link>
+              <Link to={"/dashboard/all-branches"}>
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  All Branches
+                </li>
+              </Link>
             </ul>
           </li>
           <li className=" text-white cursor-pointer">
@@ -114,17 +155,21 @@ const Sidebar = () => {
                   : "block transition-all ease-in duration-500"
               }`}
             >
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>Online History</Link>
-              </li>
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>All History</Link>
-              </li>
+              <Link to="/dashboard/online-history" className="">
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  Online History
+                </li>
+              </Link>
+              <Link to="/dashboard/all-history">
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  All History
+                </li>
+              </Link>
             </ul>
           </li>
           <li className=" text-white cursor-pointer">
             <div
-              className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
+              className="bg-green-600 hover:bg-green-700 duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
               onClick={() => toggleCollapse("stockManager")}
             >
               <AiOutlineStock />
@@ -137,17 +182,21 @@ const Sidebar = () => {
                   : "block transition-all ease-in duration-500"
               }`}
             >
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>Add Stock Maneger</Link>
-              </li>
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>All Stock Maneger</Link>
-              </li>
+              <Link>
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  Add Stock Manager
+                </li>
+              </Link>
+              <Link>
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  All Stock Manager
+                </li>
+              </Link>
             </ul>
           </li>
           <li className=" text-white cursor-pointer">
             <div
-              className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
+              className="bg-green-600 hover:bg-green-700 duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
               onClick={() => toggleCollapse("paymentGateway")}
             >
               <MdPayments />
@@ -160,9 +209,11 @@ const Sidebar = () => {
                   : "block transition-all ease-in duration-500"
               }`}
             >
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>Add Gateway</Link>
-              </li>
+              <Link>
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  Add Gateway
+                </li>
+              </Link>
               <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
                 <Link>All Gateway</Link>
               </li>
@@ -170,7 +221,7 @@ const Sidebar = () => {
           </li>
           <li className=" text-white cursor-pointer">
             <div
-              className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
+              className="bg-green-600 hover:bg-green-700 duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg"
               onClick={() => toggleCollapse("setting")}
             >
               <MdOutlineSettings />
@@ -183,31 +234,43 @@ const Sidebar = () => {
                   : "block transition-all ease-in duration-500"
               }`}
             >
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>SMS</Link>
-              </li>
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>E-Mail</Link>
-              </li>
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>Logo & Icon</Link>
-              </li>
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>Style % Color</Link>
-              </li>
+              <Link>
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  SMS
+                </li>
+              </Link>
+              <Link>
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  E-Mail
+                </li>
+              </Link>
+              <Link>
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  Logo & Icon
+                </li>
+              </Link>
+              <Link>
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  Style % Color
+                </li>
+              </Link>
               <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
                 <Link>Api</Link>
               </li>
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>Upgrade Version</Link>
-              </li>
-              <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
-                <Link>Support & Help</Link>
-              </li>
+              <Link>
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  Upgrade Version
+                </li>
+              </Link>
+              <Link>
+                <li className="bg-green-500 hover:bg-green-600 py-2 px-4 mb-2">
+                  Support & Help
+                </li>
+              </Link>
             </ul>
           </li>
-          <li className=" text-white cursor-pointer">
-            <div className="bg-green-600 hover:bg-green-700  duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg">
+          <li onClick={handleLogout} className=" text-white cursor-pointer">
+            <div className="bg-green-600 hover:bg-green-700 duration-300 py-2 px-4 flex gap-2 items-center lg:text-lg">
               <MdOutlinePowerSettingsNew />
               Exit & Logout
             </div>

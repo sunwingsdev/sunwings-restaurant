@@ -37,7 +37,7 @@ const Footer = () => {
       <li>
         <NavLink
           className={({ isActive }) =>
-            `px-4 py-2  text-white  text-xl font-semibold ${
+            `px-4 py-2  text-white  text-xl font-semibold hover:bg-green-600 ${
               isActive ? "bg-green-600" : "bg-[#D21312]"
             }`
           }
@@ -49,7 +49,7 @@ const Footer = () => {
       <li>
         <NavLink
           className={({ isActive }) =>
-            `px-4 py-2  text-white  text-xl font-semibold ${
+            `px-4 py-2  text-white  text-xl font-semibold hover:bg-green-600 ${
               isActive ? "bg-green-600" : "bg-[#D21312]"
             }`
           }
@@ -58,12 +58,12 @@ const Footer = () => {
           Online Payment History
         </NavLink>
       </li>
-      <li className="px-4 py-2 bg-[#D21312] text-white rounded text-xl font-semibold">
+      <li className="px-4 py-2 bg-[#D21312] hover:bg-green-600 text-white rounded text-xl font-semibold">
         Online Close
       </li>
       <li
         onClick={handleLogout}
-        className="px-4 py-2 bg-[#D21312] text-white rounded text-xl font-semibold"
+        className="px-4 py-2 bg-[#D21312] text-white rounded text-xl font-semibold hover:bg-green-600"
       >
         Logout Pos
       </li>
