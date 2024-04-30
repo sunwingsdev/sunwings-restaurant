@@ -8,10 +8,10 @@ const ItemMenu = ({ setOrders, orders }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(3); // Number of items per page
+  const [itemsPerPage] = useState(9); // Number of items per page
   const [searchTerm, setSearchTerm] = useState(""); // Search term for item name
   const { data: menuItems, isLoading } = useGetItemsQuery();
-  const [filteredItems, setFilteredItems] = useState([]); 
+  const [filteredItems, setFilteredItems] = useState([]);
 
   const tabList = ["chicken", "deals", "burger", "rice-bowls", "pizza"];
 
