@@ -98,6 +98,11 @@ const Sidebar = () => {
             >
               <Link to="/dashboard/add-category">
                 <li className="bg-green-500 hover:bg-green-600 mb-2 py-2 px-4 w-full">
+                  Add Category
+                </li>
+              </Link>
+              <Link to="/dashboard/add-subcategory">
+                <li className="bg-green-500 hover:bg-green-600 mb-2 py-2 px-4 w-full">
                   Add Subcategory
                 </li>
               </Link>

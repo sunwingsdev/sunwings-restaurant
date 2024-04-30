@@ -17,6 +17,7 @@ import OnlinePayment from "../pages/Home/OnlinePayment/OnlinePayment";
 import SellHistory from "../pages/Home/SellHistory/SellHistory";
 import AllHistory from "../pages/dashboard/SaleHistory/AllHistory";
 import AllBranches from "../pages/dashboard/Branch/AllBranches";
+import AddSubcategory from "../pages/dashboard/MenuCategory/AddSubcategory";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -67,6 +68,10 @@ const Router = createBrowserRouter([
       {
         path: "add-item",
         element: <AddItem />,
+      },
+      {
+        path: "add-subcategory",
+        element: <AddSubcategory />,
       },
       {
         path: "add-category",

@@ -1,30 +1,44 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { IconButton } from "@mui/material";
 import { FaDeleteLeft } from "react-icons/fa6";
-import {
-  useDeleteCategoryMutation,
-  useGetCategoriesQuery,
-} from "../../../../redux/features/allApis/categoryApi/categoryApi";
 import { useToasts } from "react-toast-notifications";
+import {
+  useDeleteMainCategoryMutation,
+  useGetMainCategoriesQuery,
+} from "../../../../redux/features/allApis/mainCategoryApi/mainCategoryApi";
+import { useState } from "react";
+import Modal from "../../../shared/Modal";
 
 const Categories = () => {
-  const { data: rows, isLoading } = useGetCategoriesQuery();
-  const [deleteCategory] = useDeleteCategoryMutation();
+  const [isOpen, setIsOpen] = useState(false);
+  const [rowId, setRowId] = useState("");
+  const { data: rows, isLoading } = useGetMainCategoriesQuery();
+  const [deleteMainCategory] = useDeleteMainCategoryMutation();
   const { addToast } = useToasts();
+
+  const openModal = (id) => {
+    setIsOpen(true);
+    setRowId(id);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   const handleDelete = async (id) => {
     // Delete functionality
     try {
-      const result = await deleteCategory(id);
+      const result = await deleteMainCategory(id);
       console.log(result);
       if (result.data.deletedCount > 0) {
-        addToast("Category Deleted successfully", {
+        addToast("Main category deleted successfully", {
           appearance: "success",
           autoDismiss: true,
         });
+        closeModal();
       }
     } catch (error) {
-      addToast("Failed to delete category", {
+      addToast("Failed to delete main category", {
         appearance: "success",
         autoDismiss: true,
       });
@@ -39,7 +53,7 @@ const Categories = () => {
   const columns = [
     { field: "id", headerName: "Serial No", width: 70 },
     { field: "category", headerName: "Category", width: 200 },
-    { field: "subcategory", headerName: "Subcategory", width: 200 },
+
     {
       field: "actions",
       headerName: "Actions",
@@ -47,7 +61,7 @@ const Categories = () => {
       renderCell: (params) => (
         <IconButton
           aria-label="delete"
-          onClick={() => handleDelete(params.row._id)}
+          onClick={() => openModal(params.row._id)}
         >
           <FaDeleteLeft className="hover:text-red-600" />
         </IconButton>
@@ -56,14 +70,38 @@ const Categories = () => {
   ];
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={rowsWithId}
-        columns={columns}
-        loading={isLoading}
-        pageSize={5}
-      />
-    </div>
+    <>
+      {" "}
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={rowsWithId}
+          columns={columns}
+          loading={isLoading}
+          pageSize={5}
+        />
+      </div>
+      <Modal closeModal={closeModal} isOpen={isOpen}>
+        <div className="">
+          <h2 className="text-center pb-6 pt-4 text-xl">
+            Are you sure want to delete it?
+          </h2>
+          <div className="flex flex-row gap-2 items-center justify-center w-full">
+            <button
+              onClick={closeModal}
+              className="btn btn-error text-white text-lg"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => handleDelete(rowId)}
+              className="btn btn-success text-white text-lg"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
+    </>
   );
 };
 

@@ -3,17 +3,21 @@ import { useState, useEffect } from "react";
 import { TiThMenu } from "react-icons/ti";
 import ItemCard from "../itemCard/ItemCard";
 import { useGetItemsQuery } from "../../../redux/features/allApis/itemApi/itemApi";
+import { useGetMainCategoriesQuery } from "../../../redux/features/allApis/mainCategoryApi/mainCategoryApi";
 
 const ItemMenu = ({ setOrders, orders }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(9); // Number of items per page
   const [searchTerm, setSearchTerm] = useState(""); // Search term for item name
   const { data: menuItems, isLoading } = useGetItemsQuery();
+  const { data: tabList, isLoading: isTabLoading } =
+    useGetMainCategoriesQuery();
   const [filteredItems, setFilteredItems] = useState([]);
 
-  const tabList = ["chicken", "deals", "burger", "rice-bowls", "pizza"];
+  const mainTabs = tabList?.slice(0, 4);
+  const anotherTabs = tabList?.slice(4);
 
   // Calculate indexes for pagination
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -21,7 +25,7 @@ const ItemMenu = ({ setOrders, orders }) => {
 
   // Function to handle adding an item to the order list
   const handleAddToOrder = (item) => {
-    const existingOrder = orders.find((order) => order._id === item._id);
+    const existingOrder = orders?.find((order) => order._id === item._id);
     if (existingOrder) {
       // If the item already exists in the order list, increment its quantity
       const updatedOrders = orders.map((order) =>
@@ -73,51 +77,57 @@ const ItemMenu = ({ setOrders, orders }) => {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || isTabLoading) {
     return <div>Loading...</div>;
   }
   return (
     <div>
       <Tab.Group>
         <Tab.List className={"text-white flex items-center gap-3 text-xl"}>
-          {tabList.map((i) => (
-            <Tab
-              onClick={() => handleSelect(i)}
-              className={`px-6 py-1 font-semibold capitalize hover:bg-green-600  ${
-                selectedCategory === i
-                  ? "bg-green-600 border-b-4 border-red-600"
-                  : "bg-red-600"
-              }`}
-              key={i}
-            >
-              {i}
-            </Tab>
-          ))}
-          <div className="relative">
-            <TiThMenu
-              onClick={() => setIsOpen(!isOpen)}
-              size={35}
-              className="text-red-600 border border-black font-semibold"
-            />
-            {/* {isOpen && ( */}
-            <ul
-              className={`menu rounded-box absolute top-8 z-50 duration-500 ease-in-out transition-all ${
-                isOpen ? "right-0" : "-right-96 hidden"
-              }`}
-            >
-              {tabList.map((i) => (
-                <Tab
-                  onClick={() => handleSelect(i)}
-                  className={`px-6 py-1 font-semibold capitalize hover:bg-green-600  ${
-                    selectedCategory === i ? "bg-green-600" : "bg-red-600"
-                  }`}
-                  key={i}
-                >
-                  {i}
-                </Tab>
-              ))}
-            </ul>
-          </div>
+          {mainTabs &&
+            mainTabs?.map((tab) => (
+              <Tab
+                onClick={() => handleSelect(tab.category)} // Make sure to pass the category to handleSelect
+                className={`px-6 py-1 font-semibold capitalize hover:bg-green-600  ${
+                  selectedCategory === tab.category
+                    ? "bg-green-600 border-b-4 border-red-600"
+                    : "bg-red-600"
+                }`}
+                key={tab._id} // Use tab._id as key
+              >
+                {tab.category}
+              </Tab>
+            ))}
+          {anotherTabs.length !== 0 && (
+            <div className="relative">
+              <TiThMenu
+                onClick={() => setIsOpen(!isOpen)}
+                size={35}
+                className="text-red-600 border border-black font-semibold"
+              />
+              {/* {isOpen && ( */}
+              <ul
+                className={`menu rounded-box absolute top-8 z-50 duration-500 ease-in-out transition-all ${
+                  isOpen ? "right-0 block" : "-right-96 hidden"
+                }`}
+              >
+                {anotherTabs &&
+                  anotherTabs?.map((tab) => (
+                    <Tab
+                      onClick={() => handleSelect(tab.category)} // Make sure to pass the category to handleSelect
+                      className={`font-semibold capitalize min-w-32 py-2 hover:bg-green-600  ${
+                        selectedCategory === tab.category
+                          ? "bg-green-600 border-b-4 border-red-600"
+                          : "bg-red-600"
+                      }`}
+                      key={tab._id} // Use tab._id as key
+                    >
+                      {tab.category}
+                    </Tab>
+                  ))}
+              </ul>
+            </div>
+          )}
         </Tab.List>
         <div className="flex justify-end mt-4">
           <input
