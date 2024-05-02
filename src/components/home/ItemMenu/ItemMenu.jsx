@@ -44,10 +44,10 @@ const ItemMenu = ({ setOrders, orders }) => {
     // Filter items based on selected category and search term
     let filtered = menuItems;
     if (selectedCategory) {
-      filtered = filtered.filter((item) => item.category === selectedCategory);
+      filtered = filtered?.filter((item) => item.category === selectedCategory);
     }
     if (searchTerm) {
-      filtered = filtered.filter((item) =>
+      filtered = filtered?.filter((item) =>
         item.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -98,7 +98,7 @@ const ItemMenu = ({ setOrders, orders }) => {
                 {tab.category}
               </Tab>
             ))}
-          {anotherTabs.length !== 0 && (
+          {anotherTabs?.length !== 0 && (
             <div className="relative">
               <TiThMenu
                 onClick={() => setIsOpen(!isOpen)}
@@ -139,7 +139,7 @@ const ItemMenu = ({ setOrders, orders }) => {
           />
         </div>
         <Tab.Panels>
-          {tabList.map((category) => (
+          {tabList?.map((category) => (
             <Tab.Panel key={category}>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 py-4">
                 {filteredItems
