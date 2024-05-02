@@ -44,7 +44,7 @@ const ItemMenu = ({ setOrders, orders }) => {
     // Filter items based on selected category and search term
     let filtered = menuItems;
     if (selectedCategory) {
-      filtered = filtered?.filter((item) => item.category === selectedCategory);
+      filtered = filtered.filter((item) => item.category === selectedCategory);
     }
     if (searchTerm) {
       filtered = filtered?.filter((item) =>
@@ -81,7 +81,7 @@ const ItemMenu = ({ setOrders, orders }) => {
     return <div>Loading...</div>;
   }
   return (
-    <div>
+    <div className="w-1/2">
       <Tab.Group>
         <Tab.List className={"text-white flex items-center gap-3 text-xl"}>
           {mainTabs &&
@@ -144,7 +144,7 @@ const ItemMenu = ({ setOrders, orders }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 py-4">
                 {filteredItems
                   ?.slice(indexOfFirstItem, indexOfLastItem)
-                  .map((item) => (
+                  ?.map((item) => (
                     <ItemCard
                       key={item._id}
                       item={item}
