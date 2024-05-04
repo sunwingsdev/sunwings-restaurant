@@ -1,73 +1,54 @@
 import { useState } from "react";
-import { useAddCategoryMutation } from "../../../redux/features/allApis/categoryApi/categoryApi";
 import { useToasts } from "react-toast-notifications";
 import Categories from "../../../components/home/dashboard/categories/Categories";
+import { useAddMainCategoryMutation } from "../../../redux/features/allApis/mainCategoryApi/mainCategoryApi";
 
 const AddCategory = () => {
-  const [subcategory, setSubcategory] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("chicken"); // Default selected category
-  const [addCategory] = useAddCategoryMutation();
+  const [category, setCategory] = useState(""); // Default selected category
+  const [addMainCategory] = useAddMainCategoryMutation();
   const { addToast } = useToasts();
 
-  const handleSubcategoryChange = (event) => {
-    setSubcategory(event.target.value);
-  };
-
   const handleCategoryChange = (event) => {
-    setSelectedCategory(event.target.value);
+    setCategory(event.target.value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle submitting the form, you can send the subcategory and selectedCategory to your backend here
-    const categoryInfo = { category: selectedCategory, subcategory };
+    const categoryInfo = { category: category.toLowerCase() };
     try {
-      const result = await addCategory(categoryInfo);
+      const result = await addMainCategory(categoryInfo);
       if (result.data.insertedId) {
-        addToast("Added category Successfully", {
+        addToast("Added category successfully", {
           appearance: "success",
           autoDismiss: true,
         });
       }
-      setSubcategory("");
+      setCategory("");
     } catch (error) {
       addToast("Failed to add", { appearance: "error", autoDismiss: true });
     }
     // Reset the subcategory input after submission
-    setSubcategory("");
-    setSelectedCategory("chicken");
+    setCategory("");
   };
 
   return (
     <div className="flex flex-row justify-between items-start gap-8 w-4/5 mx-auto">
       <div className="flex flex-col p-4 bg-white rounded shadow-md w-1/3">
-        <label className="text-lg font-bold mb-2">Add new subcategory</label>
+        <label className="text-lg font-bold mb-2">Add new category</label>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col mb-4">
             <label className="mb-1">Category</label>
-            <select
-              value={selectedCategory}
-              onChange={handleCategoryChange}
-              className="input input-bordered"
-            >
-              <option value="chicken">Chicken</option>
-              <option value="pizza">Pizza</option>
-              <option value="rice-bowls">Rice Bowls</option>
-              <option value="beef">Beef</option>
-            </select>
-          </div>
-          <div className="flex flex-col mb-4">
-            <label className="mb-1">Subcategory</label>
             <input
               type="text"
-              value={subcategory}
-              onChange={handleSubcategoryChange}
-              placeholder="Enter subcategory"
+              value={category}
+              onChange={handleCategoryChange}
+              placeholder="Enter category"
               className="input input-bordered"
             />
           </div>
           <button type="submit" className="btn btn-primary w-full">
-            Add Subcategory
+            Add Category
           </button>
         </form>
       </div>

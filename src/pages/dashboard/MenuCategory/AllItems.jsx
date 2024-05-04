@@ -15,8 +15,8 @@ const AllItems = () => {
   const { data: menuItems, isLoading } = useGetItemsQuery();
   const [deleteItem] = useDeleteItemMutation();
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [rowId, setRowId] = useState("");
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const { addToast } = useToasts();
 
   const openModal = (id) => {

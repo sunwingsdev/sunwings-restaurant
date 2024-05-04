@@ -5,7 +5,7 @@ import ReceiptSection from "../../../components/home/receiptSection/ReceiptSecti
 const Home = () => {
   const [orders, setOrders] = useState([]);
   return (
-    <div className="flex justify-center gap-8">
+    <div className="flex justify-between gap-6">
       <ReceiptSection orders={orders} setOrders={setOrders} />
       <ItemMenu setOrders={setOrders} orders={orders} />
     </div>

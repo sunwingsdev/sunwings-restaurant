@@ -1,14 +1,19 @@
 import { NavLink } from "react-router-dom";
+import { useGetTotalOrderPriceQuery } from "../../../redux/features/allApis/paymentApi/paymentApi";
 
 const Navbar = () => {
+  const { data, isLoading } = useGetTotalOrderPriceQuery();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   const navItems = (
     <>
       <li>
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `px-4 py-2  text-white rounded-3xl text-xl font-semibold ${
-              isActive ? "bg-green-600" : "bg-[#D21312]"
+            `px-4 py-2  text-white text-xl font-semibold ${
+              isActive ? "border-b-4 border-green-600" : ""
             }`
           }
         >
@@ -19,8 +24,8 @@ const Navbar = () => {
         <NavLink
           to="/online-order"
           className={({ isActive }) =>
-            `px-4 py-2  text-white rounded-3xl text-xl font-semibold ${
-              isActive ? "bg-green-600" : "bg-[#D21312]"
+            `px-4 py-2  text-white text-xl font-semibold ${
+              isActive ? "border-b-4 border-green-600" : ""
             }`
           }
         >
@@ -31,8 +36,8 @@ const Navbar = () => {
         <NavLink
           to="/calculator"
           className={({ isActive }) =>
-            `px-4 py-2  text-white rounded-3xl text-xl font-semibold ${
-              isActive ? "bg-green-600" : "bg-[#D21312]"
+            `px-4 py-2  text-white text-xl font-semibold ${
+              isActive ? "border-b-4 border-green-600" : ""
             }`
           }
         >
@@ -43,30 +48,21 @@ const Navbar = () => {
         <NavLink
           to="/sell-history"
           className={({ isActive }) =>
-            `px-4 py-2  text-white rounded-3xl text-xl font-semibold ${
-              isActive ? "bg-green-600" : "bg-[#D21312]"
+            `px-4 py-2  text-white text-xl font-semibold ${
+              isActive ? "border-b-4 border-green-600" : ""
             }`
           }
         >
           Sell History
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to=""
-          className={({ isActive }) =>
-            `px-4 py-2  text-white rounded-3xl text-xl font-semibold ${
-              isActive ? "bg-green-600" : "bg-[#D21312]"
-            }`
-          }
-        >
-          Total
-        </NavLink>
+      <li className={"px-4 py-2  text-white text-xl font-semibold "}>
+        Todays Sale {data?.todaysTotalSale} Tk
       </li>
     </>
   );
   return (
-    <div className="py-8">
+    <div className="py-3 my-2 bg-[#D21312]">
       <ul className="flex items-center justify-center gap-4">{navItems}</ul>
     </div>
   );

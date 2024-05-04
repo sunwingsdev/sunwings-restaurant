@@ -56,7 +56,7 @@ const ReceiptSection = ({ orders, setOrders }) => {
   // Generate dummy rows to ensure a minimum of 8 rows
   const dummyRows = Array.from({ length: remainingDummyRows }).map(
     (_, index) => (
-      <tr key={`dummy-${index}`}>
+      <tr className="h-10" key={`dummy-${index}`}>
         <td className="border-l border-r border-black"></td>
         <td className="border-l border-r border-black"></td>
         <td className="border-l border-r border-black"></td>
@@ -68,7 +68,7 @@ const ReceiptSection = ({ orders, setOrders }) => {
   );
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto w-1/2">
       <table className="table border border-black w-full">
         {/* head */}
         <thead className="text-lg font-bold bg-[#f40027] text-white">
@@ -183,7 +183,8 @@ const ReceiptSection = ({ orders, setOrders }) => {
       <div className="text-right pt-3 pb-5 mt-1">
         <button
           onClick={() => setOrderModal(true)}
-          className="bg-green-800 hover:bg-[#f40027] duration-300 text-white p-2 text-lg font-bold "
+          disabled={orders.length === 0}
+          className="bg-green-800 disabled:bg-slate-500 disabled:cursor-not-allowed hover:bg-[#f40027] duration-300 text-white p-2 text-lg font-bold "
         >
           Order Place
         </button>

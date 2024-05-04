@@ -11,6 +11,7 @@ const OrderForm = ({ closeModal, orders, totalOrderPrice }) => {
   } = useForm();
   const [addPayment] = useAddPaymentMutation();
   const [loading, setLoading] = useState(false);
+  const [paidValue, setPaidValue] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const { addToast } = useToasts();
 
@@ -18,7 +19,9 @@ const OrderForm = ({ closeModal, orders, totalOrderPrice }) => {
     // You can handle form submission logic here, like sending data to the server
     let itemIds = [];
     if (orders.length !== 0) {
-      orders.map((item) => itemIds.push(item._id));
+      orders.map((item) =>
+        itemIds.push({ name: item.name, quantity: item.quantity })
+      );
       data.itemIds = itemIds;
     }
     if (data.paid < totalOrderPrice) {
@@ -28,6 +31,7 @@ const OrderForm = ({ closeModal, orders, totalOrderPrice }) => {
       });
     } else {
       try {
+        data.orderPrice = parseInt(data.orderPrice);
         setLoading(true);
         const result = await addPayment(data);
         if (result.data.insertedId) {
@@ -136,21 +140,58 @@ const OrderForm = ({ closeModal, orders, totalOrderPrice }) => {
         )}
         <div>
           <label className="text-gray-700" htmlFor="price">
-            Paid
+            Order Price
           </label>
           <input
-            {...register("paid", {
+            {...register("orderPrice", {
               required: true,
               pattern: /^[0-9]+(\.[0-9]{1,2})?$/,
             })}
             type="text"
-            id="paid"
+            id="orderPrice"
+            readOnly
+            value={Math.ceil(totalOrderPrice)}
             className="input input-bordered w-full mt-1"
           />
-          {errors.paid && (
-            <span className="text-red-500">Valid price is required</span>
-          )}
         </div>
+        {paymentMethod === "cash" && (
+          <div>
+            <label className="text-gray-700" htmlFor="price">
+              Paid
+            </label>
+            <input
+              {...register("paid", {
+                required: true,
+                pattern: /^[0-9]+(\.[0-9]{1,2})?$/,
+              })}
+              onChange={(e) => setPaidValue(parseFloat(e.target.value))}
+              type="text"
+              id="paid"
+              className="input input-bordered w-full mt-1"
+            />
+            {errors.paid && (
+              <span className="text-red-500">Valid price is required</span>
+            )}
+          </div>
+        )}
+        {paymentMethod === "cash" && (
+          <div>
+            <label className="text-gray-700" htmlFor="price">
+              Return
+            </label>
+            <input
+              {...register("return", {
+                required: true,
+                pattern: /^[0-9]+(\.[0-9]{1,2})?$/,
+              })}
+              type="text"
+              id="return"
+              readOnly
+              value={paidValue - Math.ceil(totalOrderPrice)}
+              className="input input-bordered w-full mt-1"
+            />
+          </div>
+        )}
         <div className="flex justify-between items-center gap-2">
           <button
             type="button"

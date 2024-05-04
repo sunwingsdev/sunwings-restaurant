@@ -3,12 +3,14 @@ import { useForm } from "react-hook-form";
 import { imageUpload } from "../../../api/api";
 import { useAddItemMutation } from "../../../redux/features/allApis/itemApi/itemApi";
 import { useToasts } from "react-toast-notifications";
+import { useGetMainCategoriesQuery } from "../../../redux/features/allApis/mainCategoryApi/mainCategoryApi";
 
 const AddItem = () => {
   const { register, handleSubmit, reset } = useForm();
+  const { data: categories } = useGetMainCategoriesQuery();
+  const [addItem] = useAddItemMutation();
   const [imagePreview, setImagePreview] = useState(null);
   const [image, setImage] = useState(null);
-  const [addItem] = useAddItemMutation();
   const [loading, setLoading] = useState(false);
   const { addToast } = useToasts();
   //   console.log(image);
@@ -16,7 +18,7 @@ const AddItem = () => {
   const onSubmit = (data) => {
     // Handle form submission logic here
     setLoading(true);
-  imageUpload(image)
+    imageUpload(image)
       .then((imageData) => {
         // console.log(imageData);
         const imageUrl = imageData?.data?.display_url;
@@ -172,12 +174,23 @@ const AddItem = () => {
           >
             Category
           </label>
-          <input
-            type="text"
-            id="category"
-            {...register("category")}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-          />
+
+          {
+            <select
+              {...register("category")}
+              className="input input-bordered capitalize"
+            >
+              {categories?.map(({ _id, category }) => (
+                <option
+                  key={_id}
+                  value={category}
+                  selected={category === categories[0].category}
+                >
+                  {category}
+                </option>
+              ))}
+            </select>
+          }
         </div>
         <div className="mb-4">
           <label
