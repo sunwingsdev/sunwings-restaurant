@@ -18,6 +18,11 @@ const paymentApi = baseApi.injectEndpoints({
       providesTags: ["payments"],
     }),
 
+    getTotalOrderPrice: builder.query({
+      query: () => "/payments/totalOrderPrice",
+      providesTags: ["payments"],
+    }),
+
     // delete a payment
     deletePayment: builder.mutation({
       query: (id) => ({ url: `/payments/${id}`, method: "DELETE" }),
@@ -31,4 +36,5 @@ export const {
   useAddPaymentMutation,
   useGetAllPaymentsQuery,
   useDeletePaymentMutation,
+  useGetTotalOrderPriceQuery,
 } = paymentApi;

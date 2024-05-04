@@ -19,7 +19,9 @@ const OrderForm = ({ closeModal, orders, totalOrderPrice }) => {
     // You can handle form submission logic here, like sending data to the server
     let itemIds = [];
     if (orders.length !== 0) {
-      orders.map((item) => itemIds.push(item._id));
+      orders.map((item) =>
+        itemIds.push({ name: item.name, quantity: item.quantity })
+      );
       data.itemIds = itemIds;
     }
     if (data.paid < totalOrderPrice) {
@@ -29,6 +31,7 @@ const OrderForm = ({ closeModal, orders, totalOrderPrice }) => {
       });
     } else {
       try {
+        data.orderPrice = parseInt(data.orderPrice);
         setLoading(true);
         const result = await addPayment(data);
         if (result.data.insertedId) {

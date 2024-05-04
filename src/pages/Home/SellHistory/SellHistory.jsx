@@ -1,5 +1,6 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { RiDeleteBack2Fill } from "react-icons/ri";
+import { FaEye } from "react-icons/fa6";
 import { IconButton } from "@mui/material";
 import {
   useDeletePaymentMutation,
@@ -9,10 +10,13 @@ import moment from "moment";
 import { useState } from "react";
 import Modal from "../../../components/shared/Modal";
 import { useToasts } from "react-toast-notifications";
+import ViewPaymentDetails from "../../../components/home/ViewPaymentDetails/ViewPaymentDetails";
 
 const SellHistory = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isViewOpen, setIsViewOpen] = useState(false);
   const [rowId, setRowId] = useState("");
+  const [row, setRow] = useState("");
   const { data: payments } = useGetAllPaymentsQuery();
   const [deletePayment] = useDeletePaymentMutation();
   const { addToast } = useToasts();
@@ -22,9 +26,11 @@ const SellHistory = () => {
     setIsOpen(true);
   };
 
-  //   close the delete modal
   const handleCloseDeleteModal = () => {
     setIsOpen(false);
+  };
+  const handleCloseViewModal = () => {
+    setIsViewOpen(false);
   };
 
   const handleDelete = async () => {
@@ -45,12 +51,16 @@ const SellHistory = () => {
     }
   };
 
-  // Check if cashPayments is undefined before rendering DataGrid
+  const handleViewDetails = (row) => {
+    // Implement logic to display the details of the row, for example, in a modal
+    setIsViewOpen(true);
+    setRow(row);
+  };
+
   if (!payments) {
     return <div>Loading...</div>;
   }
 
-  // Columns configuration
   const columns = [
     { field: "name", headerName: "Name", width: 150 },
     { field: "phone", headerName: "Phone", width: 120 },
@@ -60,24 +70,31 @@ const SellHistory = () => {
       width: 200,
       renderCell: (params) => (
         <div className="">
-          {moment(params?.row.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
+          {moment(params?.row.createdAt).format("MMMM Do YYYY, h:mm a")}
         </div>
       ),
     },
-    { field: "paymentMethod", headerName: "Payment Method", width: 150 },
-    { field: "paid", headerName: "Paid", width: 100 },
+    { field: "paymentMethod", headerName: "Payment Method", width: 100 },
+    { field: "orderPrice", headerName: "Paid", width: 100 },
     {
       field: "actions",
       headerName: "Actions",
-      width: 120,
+      width: 200,
       renderCell: (params) => (
         <div className="flex flex-row items-center justify-center gap-2">
           <IconButton
+            aria-label="view"
+            className="group"
+            onClick={() => handleViewDetails(params.row)}
+          >
+            <FaEye className="group-hover:text-blue-500" />
+          </IconButton>
+          <IconButton
             aria-label="delete"
-            // Handle delete action
+            className="group"
             onClick={() => handleOpenDeleteModal(params.row._id)}
           >
-            <RiDeleteBack2Fill />
+            <RiDeleteBack2Fill className="group-hover:text-red-500" />
           </IconButton>
         </div>
       ),
@@ -86,13 +103,12 @@ const SellHistory = () => {
 
   return (
     <>
-      {" "}
-      <div className="w-2/3 mx-auto">
+      <div className="w-3/4 mx-auto">
         <DataGrid
           rows={payments}
           columns={columns}
           pageSize={5}
-          pageSizeOptions={[5, 10, 20, 100]} // Add pageSizeOptions including 100
+          pageSizeOptions={[5, 10, 20, 100]}
           getRowId={(row) => row._id}
         />
       </div>
@@ -116,6 +132,9 @@ const SellHistory = () => {
             </button>
           </div>
         </div>
+      </Modal>
+      <Modal isOpen={isViewOpen} closeModal={handleCloseViewModal}>
+        <ViewPaymentDetails row={row} />
       </Modal>
     </>
   );

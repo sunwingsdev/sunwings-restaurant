@@ -69,7 +69,7 @@ const OnlinePayment = () => {
       ),
     },
     { field: "paymentMethod", headerName: "Payment Method", width: 150 },
-    { field: "paid", headerName: "Paid", width: 100 },
+    { field: "orderPrice", headerName: "Price", width: 100 },
     {
       field: "actions",
       headerName: "Actions",

@@ -69,7 +69,7 @@ const CashPayment = () => {
       ),
     },
     { field: "paymentMethod", headerName: "Payment Method", width: 150 },
-    { field: "paid", headerName: "Paid", width: 100 },
+    { field: "orderPrice", headerName: "Order Price", width: 100 },
     {
       field: "actions",
       headerName: "Actions",

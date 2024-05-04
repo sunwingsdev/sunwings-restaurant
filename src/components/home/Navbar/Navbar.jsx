@@ -1,6 +1,11 @@
 import { NavLink } from "react-router-dom";
+import { useGetTotalOrderPriceQuery } from "../../../redux/features/allApis/paymentApi/paymentApi";
 
 const Navbar = () => {
+  const { data, isLoading } = useGetTotalOrderPriceQuery();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   const navItems = (
     <>
       <li>
@@ -51,17 +56,8 @@ const Navbar = () => {
           Sell History
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to=""
-          className={({ isActive }) =>
-            `px-4 py-2  text-white text-xl font-semibold ${
-              isActive ? "border-b-4 border-green-600" : ""
-            }`
-          }
-        >
-          Total
-        </NavLink>
+      <li className={"px-4 py-2  text-white text-xl font-semibold "}>
+        Todays Sale {data?.todaysTotalSale} Tk
       </li>
     </>
   );
